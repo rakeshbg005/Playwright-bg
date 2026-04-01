@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "setup": "npm install && npx playwright install",
+    "bddtest": "npx bddgen && npx playwright test --headed --workers=1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

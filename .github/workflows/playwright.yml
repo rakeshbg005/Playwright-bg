@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+# Daily schedule (uncomment if needed)
+#  schedule:
+#    - cron: '0 0 * * *' # Runs daily at midnight
+#    - cron: '0 4 * * *' # Runs daily at 4 AM
 jobs:
   test:
     runs-on: ubuntu-latest

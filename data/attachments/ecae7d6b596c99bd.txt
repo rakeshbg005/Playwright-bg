@@ -1,6 +1,0 @@
-Navigating to https://ecommerce-playground.lambdatest.io
-Clicking on my account
-Entering E-mail address: rakesh.bg005@gmail.com
-Entering password: Test1234
-Clicking on submit button
-Verifying user is not able to login and url contains: https://ecommerce-playground.lambdatest.io/index.php?route=account/login

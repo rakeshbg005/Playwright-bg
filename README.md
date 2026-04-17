@@ -16,22 +16,35 @@ playwright implementation
    npm install
    ```
 
-3. Install Playwright browsers (recommended):
+3. Install dotenv and cross-env:
+
+   ```bash
+   npm install dotenv --save
+   npm install -D cross-env
+   ```
+
+4. Install Playwright browsers (recommended):
 
    ```bash
    npx playwright install
    ```
 
-4. Generate BDD artifacts:
+5. Generate BDD artifacts:
 
    ```bash
    npx bddgen
    ```
 
-5. Run tests:
+6. Run tests:
 
    ```bash
    npx playwright test --headed --workers=1
+   ```
+
+7. Run tests for a specific environment and tag:
+
+   ```powershell
+   $env:ENVIRONMENT="int"; npx bddgen; npx playwright test --grep "@test1" --headed --workers=1
    ```
 
 ## Troubleshooting
@@ -46,6 +59,11 @@ playwright implementation
   ```json
   "scripts": {
     "setup": "npm install && npx playwright install",
-    "bddtest": "npx bddgen && npx playwright test --headed --workers=1"
+    "bddtest": "cross-env ENVIRONMENT=int npx bddgen && npx playwright test --grep \"@test1\" --headed --workers=1"
   }
+  ```
+
+- To run the environment/tag command directly on Windows PowerShell:
+  ```powershell
+  $env:ENVIRONMENT="int"; npx bddgen; npx playwright test --grep "@test1" --headed --workers=1
   ``` 

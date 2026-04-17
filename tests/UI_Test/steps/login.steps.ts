@@ -4,9 +4,13 @@ import { test } from '../fixture/fixtures';
 
 const { Given, When, Then } = createBdd(test);
 
-Given('I navigate to {string}', async ({loginPage}, url) => {
-    console.log(`Navigating to ${url}`);
-    await loginPage.navigateToURL(url);
+Given('I navigate to base url', async ({ loginPage }) => {
+  const envUrl = process.env.URL;
+  console.log('ENV URL:--------', envUrl);
+  if (!envUrl) {
+    throw new Error('process.env.URL is not defined');
+  }
+  await loginPage.navigateToURL(envUrl);
 });
 
 Given('click on my account', async ({loginPage}) => {

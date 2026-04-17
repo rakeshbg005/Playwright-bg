@@ -1,7 +1,22 @@
 
 import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
+import dotenv from 'dotenv';
+import path from 'path';
 
+const envEnvironment = process.env.ENVIRONMENT || 'local';
+const envFile = path.resolve(process.cwd(), 'env', `.env.${envEnvironment}`);
+
+console.log('Playwright config: ENVIRONMENT=', envEnvironment);
+console.log('Playwright config: loading env file=', envFile);
+
+dotenv.config({
+  path: envFile
+});
+
+if (!process.env.URL) {
+  console.warn('Playwright config: WARNING process.env.URL is not defined after loading env file');
+}
 
 const testDir = defineBddConfig({
     features: 'tests/UI_Test/feature/**/*.feature',
@@ -52,10 +67,10 @@ export default defineConfig({
       name: 'Login test',
       use: { ...devices['Desktop Chrome'] },
     },
-     {
-      name: 'single test',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    //  {
+    //   name: 'single test',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
     // {
     //   name: 'firefox',

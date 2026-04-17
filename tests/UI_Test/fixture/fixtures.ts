@@ -1,6 +1,6 @@
 import { test as base } from "playwright-bdd";
 import * as Pages from "../page/index";
-import { Fixtures, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 
 type MyFixtures = {
     loginPage: Pages.LoginPage;

@@ -32,7 +32,7 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: |
-          cross-env ENVIRONMENT=${{ github.event.inputs.environment }} npx bddgen && \
+          npx cross-env ENVIRONMENT=${{ github.event.inputs.environment }} npx bddgen && \
           npx playwright test --grep "${{ github.event.inputs.tag }}" --workers=1
 
       - name: Install Java (required for Allure Report)

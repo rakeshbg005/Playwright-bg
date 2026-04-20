@@ -1,2 +1,2 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","2567","Verify user is able to login with valid credentials","Login test","2026-04-17","passed","2026-04-17","Verify login","tests/UI_Test/feature/login.feature.spec.js","",""
+"","3111","Verify user is able to login with valid credentials","Login test","2026-04-20","passed","2026-04-20","Verify login","tests/UI_Test/feature/login.feature.spec.js","",""

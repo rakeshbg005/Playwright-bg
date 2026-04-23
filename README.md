@@ -71,7 +71,7 @@ playwright implementation
    Summary of order:
 
 # 1. Page class → extends BasePage
-
+ ```typescript
 import { Locator } from "@playwright/test";
 import { Page } from "@playwright/test";
 import { BasePage } from "./basePage";
@@ -96,13 +96,14 @@ export class ProductPage extends BasePage {
         return await this.productTitle.textContent();
     }
 }
-
+```
 # 2. index.ts → export all pages
+ ```typescript
 export { LoginPage } from './loginPage';
 export { ProductPage } from './productPage';
-
+```
 # 3.fixtures.ts → add to type and extend
-
+ ```typescript
 import { test as base } from "playwright-bdd";
 import * as Pages from "../page/index";
 import { Page } from "@playwright/test";
@@ -120,9 +121,9 @@ export const test = base.extend<MyFixtures>({
     loginPage: createTestFunction(Pages.LoginPage),
     productPage: createTestFunction(Pages.ProductPage)
 });
-
+```
 # 4.steps file → use new fixture
-
+ ```typescript
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
 import { test } from '../fixture/fixtures';
@@ -138,22 +139,25 @@ Then('I should see product title {string}', async ({ productPage }, title) => {
     const actualTitle = await productPage.getProductTitle();
     expect(actualTitle).toContain(title);
 });
-
+```
 # 5. feature file → write scenarios
-
+ ```typescript
 Feature: Product Page Tests
   @test2
   Scenario: Add product to cart
     Given I navigate to base url
     When I add product to cart
     Then I should see product title "iPhone" 
-
+```
+```
 # Fixture desinged 
-playwright-bdd base
-      ↓
-fixtures.ts          (adds loginPage)   → used by login.steps.ts
-      ↓
-api.fixtures.ts      (adds apiState)    → used by api.steps.ts
-      ↓
+# playwright-bdd base
+#      ↓
+# fixtures.ts          (adds loginPage)   → used by login.steps.ts
+#      ↓
+# api.fixtures.ts      (adds apiState)    → used by api.steps.ts
+#      ↓
+
 importTestFrom points here (has everything)
 This way both your web and API tests share the same fixture chain with no conflicts.
+```

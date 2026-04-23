@@ -22,3 +22,10 @@ Feature: Verify login
     Examples:
       | E-mail address | password |
       | xyz@sdjfhasd   | Test1234 |
+
+  @test3
+  Scenario: Verify fetching a list of products with specific limits and fields
+    Given I have the endpoint "/products"
+    When I send a GET request with parameters "limit=10&skip=10&select=title,price"
+    Then the response status should be 200
+    And the response should contain 10 products

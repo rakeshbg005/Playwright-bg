@@ -1,4 +1,4 @@
-import { test as base } from "playwright-bdd";
+import { test as base, createBdd } from "playwright-bdd";
 import * as Pages from "../page/index";
 import { Page } from "@playwright/test";
 
@@ -11,6 +11,6 @@ const createTestFunction = <T extends new (page: Page) => InstanceType<T>>(PageC
         await use(new PageClass(page));
 
 export const test = base.extend<MyFixtures>({
-     loginPage: createTestFunction(Pages.LoginPage)
+    loginPage: createTestFunction(Pages.LoginPage)
 
 });

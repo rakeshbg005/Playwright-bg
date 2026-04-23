@@ -5,40 +5,40 @@ import { test } from '../fixture/fixtures';
 const { Given, When, Then } = createBdd(test);
 
 Given('I navigate to base url', async ({ loginPage }) => {
-  const envUrl = process.env.URL;
-  console.log('ENV URL:--------', envUrl);
-  if (!envUrl) {
-    throw new Error('process.env.URL is not defined');
-  }
-  await loginPage.navigateToURL(envUrl);
+    const envUrl = process.env.URL;
+    console.log('ENV URL:--------', envUrl);
+    if (!envUrl) {
+        throw new Error('process.env.URL is not defined');
+    }
+    await loginPage.navigateToURL(envUrl);
 });
 
-Given('click on my account', async ({loginPage}) => {
+Given('click on my account', async ({ loginPage }) => {
     console.log(`Clicking on my account`);
     await loginPage.clickMyAccount();
 });
 
-Given('I enter E-mail address {string}', async ({loginPage}, email) => {
-  console.log(`Entering E-mail address: ${email}`);
-  await loginPage.enterEmail(email);
+Given('I enter E-mail address {string}', async ({ loginPage }, email) => {
+    console.log(`Entering E-mail address: ${email}`);
+    await loginPage.enterEmail(email);
 });
 
-Given('I enter password {string}', async ({loginPage}, password) => {
+Given('I enter password {string}', async ({ loginPage }, password) => {
     console.log(`Entering password: ${password}`);
     await loginPage.enterPassword(password);
 });
 
-Given('I click on submit button', async ({loginPage}) => {
+Given('I click on submit button', async ({ loginPage }) => {
     console.log(`Clicking on submit button`);
     await loginPage.clickLogin();
 });
 
-Then('I should Verify url contains {string}', async ({loginPage}, arg) => {
+Then('I should Verify url contains {string}', async ({ loginPage }, arg) => {
     console.log(`Verifying url contains: ${arg}`);
     await expect(loginPage.page).toHaveURL(arg);
 });
 
-Then('I should Verify user is not able to login and url contains {string}', async ({loginPage}, arg) => {
+Then('I should Verify user is not able to login and url contains {string}', async ({ loginPage }, arg) => {
     console.log(`Verifying user is not able to login and url contains: ${arg}`);
     await expect(loginPage.page).toHaveURL(arg);
 });

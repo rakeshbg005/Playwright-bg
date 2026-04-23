@@ -149,15 +149,17 @@ Feature: Product Page Tests
     When I add product to cart
     Then I should see product title "iPhone" 
 ```
-```
-# Fixture desinged 
-# playwright-bdd base
-#      ↓
-# fixtures.ts          (adds loginPage)   → used by login.steps.ts
-#      ↓
-# api.fixtures.ts      (adds apiState)    → used by api.steps.ts
-#      ↓
 
+
+# Fixture desinged 
+```
+ playwright-bdd base
+      ↓
+ fixtures.ts          (adds loginPage)   → used by login.steps.ts
+      ↓
+ api.fixtures.ts      (adds apiState)    → used by api.steps.ts
+      ↓
 importTestFrom points here (has everything)
+
 This way both your web and API tests share the same fixture chain with no conflicts.
 ```

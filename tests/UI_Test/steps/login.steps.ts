@@ -1,44 +1,99 @@
-import { expect } from '@playwright/test';
+import { expect, test as baseTest } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
 import { test } from '../fixture/fixtures';
 
 const { Given, When, Then } = createBdd(test);
 
-Given('I navigate to base url', async ({ loginPage }) => {
-    const envUrl = process.env.URL;
-    console.log('ENV URL:--------', envUrl);
-    if (!envUrl) {
-        throw new Error('process.env.URL is not defined');
+// ============ Sauce Demo Login Test Steps ============
+
+/**
+ * Navigate to Sauce Demo application
+ * URL is read from environment variables (SAUCEDEMO_URL from .env.{environment} file)
+ * Ensures the login form is fully loaded before proceeding
+ */
+Given('I navigate to Sauce Demo application', async ({ loginPage }) => {
+    // Get URL from environment variables - must be defined in .env file
+    const sauceDemoUrl = process.env.SAUCEDEMO_URL;
+    
+    if (!sauceDemoUrl) {
+        throw new Error('SAUCEDEMO_URL is not defined in environment variables. Please check your .env.{environment} file');
     }
-    await loginPage.navigateToURL(envUrl);
+    
+    console.log(`🔗 Navigating to Sauce Demo application: ${sauceDemoUrl}`);
+    console.log(`📁 Environment: ${process.env.ENVIRONMENT || 'local'}`);
+    
+    // Navigate to the URL
+    await loginPage.navigateToURL(sauceDemoUrl);
+    
+    // Wait for login form to be fully loaded
+    await loginPage.page.waitForLoadState('networkidle');
+    
+    // Verify we're on the login page
+    const title = await loginPage.page.title();
+    console.log(`✓ Page loaded successfully. Title: ${title}`);
+    
+    // Verify login form elements are visible
+    const usernameField = loginPage.page.locator('[data-test="username"]');
+    await usernameField.waitFor({ state: 'visible', timeout: 5000 });
+    console.log('✓ Login form is ready');
 });
 
-Given('click on my account', async ({ loginPage }) => {
-    console.log(`Clicking on my account`);
-    await loginPage.clickMyAccount();
+/**
+ * Enter username on Sauce Demo login page
+ */
+When('I enter username {string}', async ({ loginPage }, username) => {
+    console.log(`Entering username: ${username}`);
+    await loginPage.enterUsername(username);
 });
 
-Given('I enter E-mail address {string}', async ({ loginPage }, email) => {
-    console.log(`Entering E-mail address: ${email}`);
-    await loginPage.enterEmail(email);
-});
-
-Given('I enter password {string}', async ({ loginPage }, password) => {
+/**
+ * Enter password on Sauce Demo login page
+ */
+When('I enter password as {string}', async ({ loginPage }, password) => {
     console.log(`Entering password: ${password}`);
     await loginPage.enterPassword(password);
 });
 
-Given('I click on submit button', async ({ loginPage }) => {
-    console.log(`Clicking on submit button`);
+/**
+ * Click the Login button on Sauce Demo login page
+ * Waits for page navigation to complete after login
+ */
+When('I click the Login button', async ({ loginPage }) => {
+    console.log('Clicking the Login button');
     await loginPage.clickLogin();
+    // Wait for navigation after login
+    await loginPage.page.waitForLoadState('networkidle');
 });
 
-Then('I should Verify url contains {string}', async ({ loginPage }, arg) => {
-    console.log(`Verifying url contains: ${arg}`);
-    await expect(loginPage.page).toHaveURL(arg);
-});
-
-Then('I should Verify user is not able to login and url contains {string}', async ({ loginPage }, arg) => {
-    console.log(`Verifying user is not able to login and url contains: ${arg}`);
-    await expect(loginPage.page).toHaveURL(arg);
+/**
+ * Take a screenshot of the successful login page
+ * Screenshot is saved with timestamp in 'screenshots' folder
+ * Playwright automatically attaches to HTML and Allure reports
+ */
+Then('I take a screenshot of the successful login', async ({ loginPage }) => {
+    console.log('Taking screenshot of successful login page');
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const screenshotPath = `screenshots/login-success-${timestamp}.png`;
+    
+    try {
+        // Create screenshots directory if it doesn't exist
+        const fs = require('fs');
+        const path = require('path');
+        const dir = path.dirname(screenshotPath);
+        
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+        
+        // Take screenshot and save to file
+        await loginPage.page.screenshot({
+            path: screenshotPath,
+            fullPage: true
+        });
+        
+        console.log(`✓ Screenshot saved to: ${screenshotPath}`);
+    } catch (error) {
+        console.error(`✗ Failed to take screenshot: ${error}`);
+        throw error;
+    }
 });

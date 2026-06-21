@@ -9,3 +9,7 @@ node_modules/
 /allure-results/
 /allure-result/
 .features-gen/
+
+# Screenshots and temporary files
+screenshots/
+.slingshot/

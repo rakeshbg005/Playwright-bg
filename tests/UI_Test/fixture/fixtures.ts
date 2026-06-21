@@ -4,6 +4,7 @@ import { Page } from "@playwright/test";
 
 type MyFixtures = {
     loginPage: Pages.LoginPage;
+    inventoryLandingPage: Pages.InventoryLandingPage;
 };
 
 const createTestFunction = <T extends new (page: Page) => InstanceType<T>>(PageClass: T) =>
@@ -11,6 +12,7 @@ const createTestFunction = <T extends new (page: Page) => InstanceType<T>>(PageC
         await use(new PageClass(page));
 
 export const test = base.extend<MyFixtures>({
-    loginPage: createTestFunction(Pages.LoginPage)
+    loginPage: createTestFunction(Pages.LoginPage),
+    inventoryLandingPage: createTestFunction(Pages.InventoryLandingPage)
 
 });

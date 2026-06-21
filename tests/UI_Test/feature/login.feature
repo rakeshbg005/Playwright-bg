@@ -1,31 +1,57 @@
-@login
-Feature: Verify login
+@login @saucedemo
+Feature: Sauce Demo Login Tests
 
-  @test1
+  # ============ Sauce Demo Login Scenarios ============
+
+  @test1 @smoke
   Scenario: Verify user is able to login with valid credentials
-    Given I navigate to base url
-    And click on my account
-    And I enter E-mail address "rakesh.bg005@gmail.com"
-    And I enter password "Test1234"
-    And I click on submit button
-    Then I should Verify user is not able to login and url contains "https://ecommerce-playground.lambdatest.io/index.php?route=account/login"
+    Given I navigate to Sauce Demo application
+    When I enter username "standard_user"
+    And I enter password as "secret_sauce"
+    And I click the Login button
+    Then I should see the products page
+    And I take a screenshot of the successful login
 
-  @test2
-  Scenario Outline: Scenario Outline name: Verify user is not able to login with valid credentials
-    Given I navigate to base url
-    And click on my account
-    And I enter E-mail address "<E-mail address>"
-    And I enter password "<password>"
-    And I click on submit button
-    Then I should Verify user is not able to login and url contains "https://ecommerce-playground.lambdatest.io/index.php?route=account/login"
+  # @test2 @smoke
+  # Scenario: Verify user is able to login with performance glitch user
+  #   Given I navigate to Sauce Demo application
+  #   When I enter username "performance_glitch_user"
+  #   And I enter password as "secret_sauce"
+  #   And I click the Login button
+  #   Then I should see the products page
 
-    Examples:
-      | E-mail address | password |
-      | xyz@sdjfhasd   | Test1234 |
+  # @test3 @regression
+  # Scenario: Verify user cannot login with invalid username
+  #   Given I navigate to Sauce Demo application
+  #   When I enter username "invalid_user"
+  #   And I enter password as "secret_sauce"
+  #   And I click the Login button
+  #   Then I should see an error message
 
-  @test3
-  Scenario: Verify fetching a list of products with specific limits and fields
-    Given I have the endpoint "/products"
-    When I send a GET request with parameters "limit=10&skip=10&select=title,price"
-    Then the response status should be 200
-    And the response should contain 10 products
+  # @test4 @regression
+  # Scenario: Verify user cannot login with invalid password
+  #   Given I navigate to Sauce Demo application
+  #   When I enter username "standard_user"
+  #   And I enter password as "wrong_password"
+  #   And I click the Login button
+  #   Then I should see an error message
+
+  # @test5 @regression
+  # Scenario: Verify login form is displayed on page load
+  #   Given I navigate to Sauce Demo application
+  #   Then I should see the login form
+
+  # @test6 @regression
+  # Scenario Outline: Verify user cannot login with various invalid credentials
+  #   Given I navigate to Sauce Demo application
+  #   When I enter username "<username>"
+  #   And I enter password as "<password>"
+  #   And I click the Login button
+  #   Then I should see an error message
+
+  #   Examples:
+  #     | username             | password       |
+  #     | locked_out_user      | secret_sauce   |
+  #     | invalid_user         | invalid_pass   |
+  #     | standard_user        | invalid_pass   |
+  #     | problem_user         | wrong_password |

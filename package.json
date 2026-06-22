@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "setup": "npm install && npx playwright install && npm install --save-dev @types/node",
-    "bddtest": "cross-env ENVIRONMENT=int npx bddgen && npx playwright test --grep @test1 --workers=1"
+    "bddtest": "cross-env ENVIRONMENT=int npx bddgen && cross-env ENVIRONMENT=int npx playwright test --grep @test1 --workers=1"
   },
   "keywords": [],
   "author": "",

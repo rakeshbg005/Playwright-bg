@@ -39,19 +39,23 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Fail if SAUCEDEMO_URL missing
-        if: ${{ secrets.SAUCEDEMO_URL == '' }}
+        env:
+          SAUCEDEMO_URL: ${{ secrets.SAUCEDEMO_URL }}
         run: |
-          echo "ERROR: SAUCEDEMO_URL secret is not set. Add it in Settings -> Secrets and variables -> Actions."
-          exit 1
+          if [ -z "$SAUCEDEMO_URL" ]; then
+            echo "ERROR: SAUCEDEMO_URL secret is not set. Add it in Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
 
       - name: Export SAUCEDEMO_URL
         run: echo "SAUCEDEMO_URL=${{ secrets.SAUCEDEMO_URL }}" >> $GITHUB_ENV
 
       - name: Create env/.env.int from secret
-        if: ${{ secrets.SAUCEDEMO_URL != '' }}
+        env:
+          SAUCEDEMO_URL: ${{ secrets.SAUCEDEMO_URL }}
         run: |
           mkdir -p env
-          echo "SAUCEDEMO_URL=${{ secrets.SAUCEDEMO_URL }}" > env/.env.int
+          echo "SAUCEDEMO_URL=${SAUCEDEMO_URL}" > env/.env.int
 
       - name: Run BDD generator
         run: npx bddgen

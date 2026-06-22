@@ -19,6 +19,8 @@ on:
 
 jobs:
   test:
+    env:
+      SAUCEDEMO_URL: ${{ secrets.SAUCEDEMO_URL }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -30,6 +32,8 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Export SAUCEDEMO_URL
+        run: echo "SAUCEDEMO_URL=${{ secrets.SAUCEDEMO_URL }}" >> $GITHUB_ENV
       - name: Run Playwright tests
         run: |
           npx cross-env ENVIRONMENT=${{ github.event.inputs.environment }} npx bddgen && \

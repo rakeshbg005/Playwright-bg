@@ -14,8 +14,8 @@ const {When} = createBdd(test);
  * - And I wait for 2 second(s)
  * - When I wait for 3 second(s)
  */
-When('I wait for {int} second(s)', async ({ page }, seconds: number) => {
-    console.log(`⏳ Waiting for ${seconds} second(s)...`);
+When(/I wait for (\d+) second\(s\)/, async ({ page }, seconds: number) => {
+    console.log(` Waiting for ${seconds} second(s)...`);
     // Wait for the page to be in a stable state first
     await page.waitForLoadState('networkidle').catch(() => {});
     // Then apply the additional delay

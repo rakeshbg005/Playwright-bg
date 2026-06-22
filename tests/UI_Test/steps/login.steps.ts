@@ -33,8 +33,10 @@ Given('I navigate to Sauce Demo application', async ({ loginPage }) => {
     console.log(`✓ Page loaded successfully. Title: ${title}`);
     
     // Verify login form elements are visible
-    const usernameField = loginPage.page.locator('[data-test="username"]');
-    await usernameField.waitFor({ state: 'visible', timeout: 5000 });
+    const isUsernameFieldVisible = await loginPage.isUsernameFieldVisible();
+    if (!isUsernameFieldVisible) {
+        throw new Error('Username field is not visible on login page');
+    }
     console.log('✓ Login form is ready');
 });
 

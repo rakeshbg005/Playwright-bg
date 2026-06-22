@@ -19,8 +19,6 @@ on:
 
 jobs:
   test:
-    env:
-      SAUCEDEMO_URL: ${{ secrets.SAUCEDEMO_URL }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -32,8 +30,19 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Fail if SAUCEDEMO_URL missing
+        if: ${{ secrets.SAUCEDEMO_URL == '' }}
+        run: |
+          echo "ERROR: SAUCEDEMO_URL secret is not set. Add it in Settings -> Secrets and variables -> Actions."
+          exit 1
+
       - name: Export SAUCEDEMO_URL
         run: echo "SAUCEDEMO_URL=${{ secrets.SAUCEDEMO_URL }}" >> $GITHUB_ENV
+      - name: Create env/.env.${{ github.event.inputs.environment }} from secret
+        if: ${{ secrets.SAUCEDEMO_URL != '' }}
+        run: |
+          mkdir -p env
+          echo "SAUCEDEMO_URL=${{ secrets.SAUCEDEMO_URL }}" > env/.env.${{ github.event.inputs.environment }}
       - name: Run Playwright tests
         run: |
           npx cross-env ENVIRONMENT=${{ github.event.inputs.environment }} npx bddgen && \

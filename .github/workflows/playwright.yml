@@ -12,8 +12,6 @@ on:
 #    - cron: '0 4 * * *' # Runs daily at 4 AM
 jobs:
   test:
-    env:
-      SAUCEDEMO_URL: ${{ secrets.SAUCEDEMO_URL }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -40,8 +38,20 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
+      - name: Fail if SAUCEDEMO_URL missing
+        if: ${{ secrets.SAUCEDEMO_URL == '' }}
+        run: |
+          echo "ERROR: SAUCEDEMO_URL secret is not set. Add it in Settings -> Secrets and variables -> Actions."
+          exit 1
+
       - name: Export SAUCEDEMO_URL
         run: echo "SAUCEDEMO_URL=${{ secrets.SAUCEDEMO_URL }}" >> $GITHUB_ENV
+
+      - name: Create env/.env.int from secret
+        if: ${{ secrets.SAUCEDEMO_URL != '' }}
+        run: |
+          mkdir -p env
+          echo "SAUCEDEMO_URL=${{ secrets.SAUCEDEMO_URL }}" > env/.env.int
 
       - name: Run BDD generator
         run: npx bddgen

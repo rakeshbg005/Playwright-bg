@@ -1,0 +1,12 @@
+🔗 Navigating to Sauce Demo application: https://www.saucedemo.com/
+📁 Environment: int
+✓ Page loaded successfully. Title: Swag Labs
+✓ Login form is ready
+Entering username: standard_user
+Entering password: secret_sauce
+Clicking the Login button
+Verifying products page is displayed
+✓ Product layout is visible on Inventory page
+✓ Found 6 products on inventory page
+Taking screenshot of successful login page
+✓ Screenshot saved to: screenshots/login-success-2026-06-22T09-48-11-860Z.png

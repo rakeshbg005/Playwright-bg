@@ -1,7 +1,7 @@
 @cart @saucedemo
 Feature: Sauce Demo Shopping Cart Operations
   # ============ Cart Management Scenarios ============
-  # added extra wait just for review and debugging purposes
+  # added extra 3 sec wait just for review and debugging purposes
 
   @test2 @smoke
   Scenario: Add and Remove Items from Cart
